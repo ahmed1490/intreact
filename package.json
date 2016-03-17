@@ -1,6 +1,6 @@
 {
   "name": "intreact",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Handling interactions with dumb react components",
   "main": "dist/intreact.js",
   "scripts": {
@@ -50,7 +50,7 @@
       "src/**/*-test.js"
     ],
     "source": [
-      "src/**/*.{js. jsx}"
+      "src/**/*.{js,jsx}"
     ],
     "babel": {
       "presets": [

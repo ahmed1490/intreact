@@ -149,9 +149,9 @@ export function needsRotate(props) {
 
 
 export function isHammerEvent(name) {
-    return hammerEvents.includes(name);
+    return hammerEvents.indexOf(name) !== -1;
 }
 
 export function isSyntheticEvent(name) {
-    return syntheticEvents.includes(name);
+    return syntheticEvents.indexOf(name) !== -1;
 }
