@@ -1,5 +1,12 @@
+const canUseDOM = !!(
+    (typeof window !== 'undefined' &&
+    window.document && window.document.createElement)
+);
+
 import React, {Component, PropTypes} from 'react';
-import Hammer from 'hammerjs';
+
+const Hammer = canUseDOM ? require('hammerjs') : undefined;
+
 import {
     isHammerEvent,
     isSyntheticEvent,
@@ -24,6 +31,7 @@ export default class Intreact extends Component {
         const hammerIsNeeded = hammerEvents.length > 0;
 
         if (hammerIsNeeded) {
+            if (!canUseDOM) return;
             this.hammer = new Hammer(this.refs.element);
             this.configureHammer();
             hammerEvents.forEach(event => {
