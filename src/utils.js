@@ -111,15 +111,32 @@ const hammerEvents = [
     'onSwipeup',
     'onSwipedown',
 
-    'onTap'
+    'onTap',
+    'onTapoutside'
 ];
 
 export const hammerEventNames = hammerEvents.map(el => el.slice(2).toLowerCase);
+
+export function needsTap(props) {
+    return 'onTap' in props;
+}
+
+export function needsPress(props) {
+    return 'onPress' in props ||
+        'onPressup' in props;
+}
 
 export function needsAllSwipeDirections(props) {
     return 'onSwipedown' in props ||
         'onSwipeup' in props;
 }
+
+export function needsSwipe(props) {
+    return needsAllSwipeDirections(props) ||
+        'onSwiperight' in props ||
+        'onSwipeleft' in props;
+}
+
 export function needsAllPanDirections(props) {
     return 'onPanstart' in props ||
         'onPanmove' in props ||
@@ -127,6 +144,12 @@ export function needsAllPanDirections(props) {
         'onPancancel' in props ||
         'onPanup' in props ||
         'onPandown' in props;
+}
+
+export function needsPan(props) {
+    return needsAllPanDirections(props) ||
+        'onPanleft' in props ||
+        'onPanright' in props;
 }
 
 export function needsPinch(props) {
@@ -147,6 +170,9 @@ export function needsRotate(props) {
         'onRotatecancel' in props;
 }
 
+export function needsTapoutside(props) {
+    return 'onTapoutside' in props;
+}
 
 export function isHammerEvent(name) {
     return hammerEvents.indexOf(name) !== -1;

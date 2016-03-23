@@ -1,6 +1,6 @@
 {
   "name": "intreact",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Handling interactions with dumb react components",
   "main": "dist/intreact.js",
   "scripts": {
@@ -21,6 +21,7 @@
     "wrapper",
     "component"
   ],
+  "repository": "zalando/intreact",
   "author": "Andrea Moretti <axyzxp@gmail.com>",
   "license": "MIT",
   "dependencies": {

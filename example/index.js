@@ -7,8 +7,9 @@ render(
         onClick={() => console.log('click')}
         onMouseOver={() => console.log('mouseOver')}
         onTap={() => console.log('tap')}
+        onTapoutside={() => console.log('tapoutside')}
         onSwipeleft={() => console.log('swipeleft')}
-        onSwipedown={() => console.log('swipedown')}
+        onSwipedown={() => React.unmountComponentAtNode(document.getElementById('intreact-example'))}
         onSwiperight={() => console.log('swiperight')}>
 
         <div className="touch-area">TOUCH ME!</div>

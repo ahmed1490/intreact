@@ -13,8 +13,13 @@ import {
     hammerEventNames,
     needsAllSwipeDirections,
     needsAllPanDirections,
+    needsTap,
+    needsPress,
+    needsPan,
+    needsSwipe,
     needsPinch,
-    needsRotate
+    needsRotate,
+    needsTapoutside
 } from './utils';
 
 export default class Intreact extends Component {
@@ -32,7 +37,9 @@ export default class Intreact extends Component {
 
         if (hammerIsNeeded) {
             if (!canUseDOM) return;
-            this.hammer = new Hammer(this.refs.element);
+            this.hammer = new Hammer.Manager(this.refs.element, {
+                recognizers: this.getNeededRecognizers()
+            });
             this.configureHammer();
             hammerEvents.forEach(event => {
                 // event handlers are always in the form onEventname
@@ -47,7 +54,23 @@ export default class Intreact extends Component {
         if (this.hammer) {
             this.hammer.off(hammerEventNames.join(' '));
             this.hammer.destroy();
+
+            if (this.hasTapoutside) {
+                this.globalHammer.off('tap', this.handleTapoutside);
+            }
         }
+    }
+
+    getNeededRecognizers() {
+        const recognizers = [];
+        if (needsPan(this.props)) recognizers.push([Hammer.Pan]);
+        if (needsPinch(this.props)) recognizers.push([Hammer.Pinch]);
+        if (needsPress(this.props)) recognizers.push([Hammer.Press]);
+        if (needsRotate(this.props)) recognizers.push([Hammer.Rotate]);
+        if (needsSwipe(this.props)) recognizers.push([Hammer.Swipe]);
+        if (needsTap(this.props)) recognizers.push([Hammer.Tap]);
+
+        return recognizers;
     }
 
     configureHammer() {
@@ -66,6 +89,30 @@ export default class Intreact extends Component {
         if (needsRotate(this.props)) {
             this.hammer.get('rotate').set({ enable: true });
         }
+
+        if (needsTapoutside(this.props)) {
+            this.configureTapoutside();
+        }
+    }
+
+    handleTapoutside(e) {
+        if (e.target === this.refs.element.firstChild) return;
+        this.props.onTapoutside();
+    }
+
+    configureTapoutside() {
+        this.globalHammer = this.getGlobalHammer();
+        this.globalHammer.on('tap', this.handleTapoutside.bind(this));
+        this.hasTapoutside = true;
+    }
+
+    getGlobalHammer() {
+        if (window.__intreact_hammer__) return window.__intreact_hammer__;
+        window.__intreact_hammer__ = new Hammer.Manager(window.document, {
+            recognizers: [[Hammer.Tap]],
+            domEvents: true
+        });
+        return window.__intreact_hammer__;
     }
 
     render() {

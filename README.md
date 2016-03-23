@@ -42,6 +42,7 @@ ReactDOM.render(
         onClick={clickAction}
         onMouseOver={mouseOverAction}
         onTap={tapAction}
+        onTapoutside={tapoutsideAction}
         onSwipeleft={swipeleftAction}
         onSwiperight={swiperightAction}>
 
@@ -56,6 +57,8 @@ ReactDOM.render(
 Intreact supports all the events provided by [hammerjs](http://hammerjs.github.io/), you just need to add "on"
 in front of the event name and uppercase the first letter (e.g. "tap" -> onTap,
 "swiperight" -> onSwiperight).
+
+onTapoutside is a special handler that will be triggered when tapping outside of the wrapped element. To make it possible a global Hammer Manager must be instantiated, however Intreact will always check if it already exist and in that case it will just add the new listener to it. When the component get unmounted the onTapoutside listener will be removed, however the global Hammer Manager will not be removed as it may be used by other Intreact components. If you really want to get rid of it and you are sure that no other Intreact components are listening for onTapoutside events you can destroy the window.__intreact_hammer__ object.
 
 You can freely continue to add standard react [synthetic events](https://facebook.github.io/react/docs/events.html) to your stateless
 components, however if you want to keep all the interactions inside Intreact
