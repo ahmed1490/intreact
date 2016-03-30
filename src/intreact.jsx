@@ -38,7 +38,7 @@ export default class Intreact extends Component {
 
         if (hammerIsNeeded) {
             if (!canUseDOM) return;
-            this.hammer = new Hammer.Manager(this._element, {
+            this.hammer = new Hammer.Manager(this.refs.element, {
                 recognizers: this.getNeededRecognizers()
             });
             this.configureHammer();
@@ -97,7 +97,7 @@ export default class Intreact extends Component {
     }
 
     handleTapoutside(e) {
-        if (isContainedBy(e.target, this._element)) return;
+        if (isContainedBy(e.target, this.refs.element)) return;
         this.props.onTapoutside();
     }
 
@@ -134,7 +134,7 @@ export default class Intreact extends Component {
         }
 
         return (
-            <div {...childProps} ref={el => this._element = el ? el : this._element}>
+            <div {...childProps} ref="element">
                 {children}
             </div>
         );
