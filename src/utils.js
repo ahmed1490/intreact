@@ -181,3 +181,15 @@ export function isHammerEvent(name) {
 export function isSyntheticEvent(name) {
     return syntheticEvents.indexOf(name) !== -1;
 }
+
+export function isContainedBy(node, parent) {
+    if (node === parent) return true;
+    if (!parent.children) return false;
+    const nodes = [].slice.call(parent.children);
+    return nodes.reduce((result, el) => {
+        if (result) return true;
+        if (el === node) return true;
+        if (el.children) return isContainedBy(node, el);
+        return false;
+    }, false);
+}

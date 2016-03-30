@@ -19,7 +19,8 @@ import {
     needsSwipe,
     needsPinch,
     needsRotate,
-    needsTapoutside
+    needsTapoutside,
+    isContainedBy
 } from './utils';
 
 export default class Intreact extends Component {
@@ -96,7 +97,7 @@ export default class Intreact extends Component {
     }
 
     handleTapoutside(e) {
-        if (e.target === this.refs.element.firstChild) return;
+        if (isContainedBy(e.target, this.refs.element)) return;
         this.props.onTapoutside();
     }
 

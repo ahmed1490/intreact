@@ -12,7 +12,8 @@ render(
         onSwipedown={() => React.unmountComponentAtNode(document.getElementById('intreact-example'))}
         onSwiperight={() => console.log('swiperight')}>
 
-        <div className="touch-area">TOUCH ME!</div>
+        <div className="touch-area">TOUCH ME! <button>button</button></div>
+        <button>button</button>
 
     </Intreact>,
     document.getElementById('intreact-example')
