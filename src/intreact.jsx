@@ -39,7 +39,8 @@ export default class Intreact extends Component {
         if (hammerIsNeeded) {
             if (!canUseDOM) return;
             this.hammer = new Hammer.Manager(this.refs.element, {
-                recognizers: this.getNeededRecognizers()
+                recognizers: this.getNeededRecognizers(),
+                touchAction: 'manipulation'
             });
             this.configureHammer();
             hammerEvents.forEach(event => {
@@ -75,6 +76,14 @@ export default class Intreact extends Component {
     }
 
     configureHammer() {
+        if (needsSwipe(this.props)) {
+            this.hammer.get('swipe').set({ direction: Hammer.DIRECTION_HORIZONTAL });
+        }
+
+        if (needsPan(this.props)) {
+            this.hammer.get('pan').set({ direction: Hammer.DIRECTION_HORIZONTAL });
+        }
+
         if (needsAllSwipeDirections(this.props)) {
             this.hammer.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
         }
