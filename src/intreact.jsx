@@ -52,6 +52,20 @@ export default class Intreact extends Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.hammer) {
+            // if the event handlers are changed we need to update them
+            const hammerEvents = Object.keys(this.props).filter(isHammerEvent);
+            hammerEvents.forEach(event => {
+                const name = event.slice(2).toLowerCase();
+                if (this.props[event] !== prevProps[event]) {
+                    this.hammer.off(name, prevProps[event]);
+                    this.props[event] && this.hammer.on(name, this.props[event]);
+                }
+            });
+        }
+    }
+
     componentWillUnmount() {
         if (this.hammer) {
             this.hammer.off(hammerEventNames.join(' '));
