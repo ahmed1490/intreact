@@ -121,7 +121,7 @@ export default class Intreact extends Component {
 
     handleTapoutside(e) {
         if (isContainedBy(e.target, this.refs.element)) return;
-        this.props.onTapoutside();
+        this.props.onTapoutside(e);
     }
 
     configureTapoutside() {
