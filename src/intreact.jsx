@@ -43,7 +43,7 @@ export default class Intreact extends Component {
                 .filter(isCustomKeyboardEvent);
 
             if (customKeyboardEvents.length > 0) {
-                this.autoFocus = true;
+                this.autofocus = true;
                 this.refs.element.focus();
             }
         }
