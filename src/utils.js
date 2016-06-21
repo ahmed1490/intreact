@@ -74,7 +74,7 @@ const syntheticEvents = [
     'onWaiting',
 
     'onLoad',
-    'onError'
+    'onError',
 ];
 
 const hammerEvents = [
@@ -112,7 +112,15 @@ const hammerEvents = [
     'onSwipedown',
 
     'onTap',
-    'onTapoutside'
+    'onTapoutside',
+];
+
+const customKeyboardEvents = [
+    'onArrowUp',
+    'onArrowRight',
+    'onArrowDown',
+    'onArrowLeft',
+    'onEscape',
 ];
 
 export const hammerEventNames = hammerEvents.map(el => el.slice(2).toLowerCase);
@@ -180,6 +188,32 @@ export function isHammerEvent(name) {
 
 export function isSyntheticEvent(name) {
     return syntheticEvents.indexOf(name) !== -1;
+}
+
+export function isCustomKeyboardEvent(name) {
+    return customKeyboardEvents.indexOf(name) !== -1;
+}
+
+export function configureKeyDown(props, events) {
+    const originalKeyDown = props.onKeyDown;
+    return ev => {
+        originalKeyDown && originalKeyDown(ev);
+        if (events.includes('onEscape')) {
+            if (ev.key === 'Escape') props.onEscape();
+        }
+        if (events.includes('onArrowUp')) {
+            if (ev.key === 'ArrowUp') props.onArrowUp();
+        }
+        if (events.includes('onArrowRight')) {
+            if (ev.key === 'ArrowRight') props.onArrowRight();
+        }
+        if (events.includes('onArrowDown')) {
+            if (ev.key === 'ArrowDown') props.onArrowDown();
+        }
+        if (events.includes('onArrowLeft')) {
+            if (ev.key === 'ArrowLeft') props.onArrowLeft();
+        }
+    };
 }
 
 export function isContainedBy(node, parent) {

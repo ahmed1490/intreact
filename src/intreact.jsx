@@ -8,8 +8,10 @@ import React, {Component, PropTypes} from 'react';
 const Hammer = canUseDOM ? require('hammerjs') : undefined;
 
 import {
+    configureKeyDown,
     isHammerEvent,
     isSyntheticEvent,
+    isCustomKeyboardEvent,
     hammerEventNames,
     needsAllSwipeDirections,
     needsAllPanDirections,
@@ -20,7 +22,7 @@ import {
     needsPinch,
     needsRotate,
     needsTapoutside,
-    isContainedBy
+    isContainedBy,
 } from './utils';
 
 export default class Intreact extends Component {
@@ -35,6 +37,13 @@ export default class Intreact extends Component {
             .filter(isHammerEvent);
 
         const hammerIsNeeded = hammerEvents.length > 0;
+
+        const customKeyboardEvents = Object.keys(this.props)
+            .filter(isCustomKeyboardEvent);
+
+        if (customKeyboardEvents.length > 0) {
+            this.refs.element.focus();
+        }
 
         if (hammerIsNeeded) {
             if (!canUseDOM) return;
@@ -139,6 +148,10 @@ export default class Intreact extends Component {
         return window.__intreact_hammer__;
     }
 
+    configureCustomKeyboardEvents(events) {
+        return configureKeyDown(this.props, events);
+    }
+
     render() {
         const {
             children,
@@ -150,10 +163,19 @@ export default class Intreact extends Component {
         const syntheticEvents = Object.keys(this.props)
             .filter(isSyntheticEvent);
 
+        const customKeyboardEvents = Object.keys(this.props)
+            .filter(isCustomKeyboardEvent);
+
         if (syntheticEvents.length > 0) {
             syntheticEvents.forEach(event => {
                 childProps[event] = this.props[event];
             });
+        }
+
+        if (customKeyboardEvents.length > 0) {
+            childProps.onKeyDown = this.configureCustomKeyboardEvents(customKeyboardEvents);
+            childProps.tabIndex = '0';
+            childProps.style = { outline: 'none' };
         }
 
         return (
