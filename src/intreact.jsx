@@ -38,11 +38,14 @@ export default class Intreact extends Component {
 
         const hammerIsNeeded = hammerEvents.length > 0;
 
-        const customKeyboardEvents = Object.keys(this.props)
-            .filter(isCustomKeyboardEvent);
+        if (canUseDOM) {
+            const customKeyboardEvents = Object.keys(this.props)
+                .filter(isCustomKeyboardEvent);
 
-        if (customKeyboardEvents.length > 0) {
-            this.refs.element.focus();
+            if (customKeyboardEvents.length > 0) {
+                this.autoFocus = true;
+                this.refs.element.focus();
+            }
         }
 
         if (hammerIsNeeded) {
@@ -62,6 +65,10 @@ export default class Intreact extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        if (this.autofocus) {
+            this.refs.element.focus();
+        }
+
         if (this.hammer) {
             // if the event handlers are changed we need to update them
             const hammerEvents = Object.keys(this.props).filter(isHammerEvent);
