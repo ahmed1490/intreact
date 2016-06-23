@@ -4,6 +4,7 @@ import Intreact from 'intreact';
 
 render(
     <Intreact
+        autofocus={true}
         onClick={() => console.log('click')}
         onEscape={ev => console.log('onEscape')}
         onArrowLeft={ev => console.log('onArrowLeft')}

@@ -30,7 +30,8 @@ export default class Intreact extends Component {
         const {
             onTap,
             onSwipeleft,
-            onSwiperight
+            onSwiperight,
+            autofocus,
         } = this.props;
 
         const hammerEvents = Object.keys(this.props)
@@ -42,8 +43,7 @@ export default class Intreact extends Component {
             const customKeyboardEvents = Object.keys(this.props)
                 .filter(isCustomKeyboardEvent);
 
-            if (customKeyboardEvents.length > 0) {
-                this.autofocus = true;
+            if (autofocus) {
                 this.refs.element.focus();
             }
         }
@@ -65,7 +65,7 @@ export default class Intreact extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.autofocus) {
+        if (this.props.autofocus) {
             this.refs.element.focus();
         }
 

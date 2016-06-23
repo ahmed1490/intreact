@@ -44,7 +44,10 @@ ReactDOM.render(
         onTap={tapAction}
         onTapoutside={tapoutsideAction}
         onSwipeleft={swipeleftAction}
-        onSwiperight={swiperightAction}>
+        onSwiperight={swiperightAction}
+        onEscape={onEscapeAction}
+        autofocus={true}
+    >
 
         <DumbComponent>INTERACT WITH ME!</DumbComponent>
 
@@ -65,7 +68,7 @@ components, however if you want to keep all the interactions inside Intreact
 wrappers you can simply add the usual synthetic events to Intreact as well and
 it will pass them down to the underlying component.
 
-You can use some special keyboard events: `onEscape`, `onArrowUp`, `onArrowRight`, `onArrowDown`, `onArrowLeft`, that will automatically setup onKeyDown event on the children element to trigger the eventually alreadydefined onKeyDown handler and then execute the custom handler if the key pressed is the one specified by he event. Please note that no global handler is created, instead the handler is attached to the child node and a tabIndex is specified as well as automatically focus on mount and the default outline is removed from the style; this way the element will start listening on these event when mounted and stop when unfocused or unmounted avoiding conflicts on the global scope.
+You can use some special keyboard events: `onEscape`, `onArrowUp`, `onArrowRight`, `onArrowDown`, `onArrowLeft`, that will automatically setup onKeyDown event on the children element to trigger the eventually alreadydefined onKeyDown handler and then execute the custom handler if the key pressed is the one specified by he event. Please note that no global handler is created, instead the handler is attached to the child node and a tabIndex is specified, then if autofocus is true it will automatically focus on mount or update and the default outline is removed from the style; this way the element will start listening on these event when mounted and stop when unfocused or unmounted avoiding conflicts on the global scope.
 
 Performance Notes
 -----------------
